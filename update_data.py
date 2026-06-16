@@ -1,36 +1,63 @@
 import pandas as pd
+import numpy as np
 import datetime
 import os
 
-def fetch_and_transform_data():
+def generate_v2_dataset():
     """
-    Simulates an ETL pipeline fetching real-world macroeconomic data.
-    In a full production environment, this would hit the OECD SDMX API.
+    V2 ETL Pipeline: Simulates complex, multi-dimensional demographic 
+    and economic data for the Portugal Brain Drain Atlas.
     """
-    print(f"[{datetime.datetime.now()}] Initiating data pull...")
+    print(f"[{datetime.datetime.now()}] Initiating V2 data pull and transformation...")
     
-    # Simulating real-world formatted data combining Portugal metrics with OECD averages
-    data = {
-        "Year": [2020, 2021, 2022, 2023, 2024] * 3,
-        "Sector": ["Engineering/IT"]*5 + ["Healthcare"]*5 + ["Education/Research"]*5,
-        "PT_Emigrants": [3200, 3100, 4200, 4800, 5200, 1800, 2100, 2800, 3100, 3400, 950, 1050, 1400, 1600, 1800],
-        "PT_Avg_Salary_EUR": [18000, 18500, 19000, 19500, 20000, 16000, 16500, 17000, 17500, 18000, 14000, 14200, 14500, 15000, 15500],
-        "OECD_Avg_Salary_EUR": [45000, 46000, 48000, 50000, 52000, 40000, 41000, 44000, 46000, 48000, 35000, 36000, 38000, 40000, 42000],
-        "Primary_Destination": ["UK"]*5 + ["Germany"]*5 + ["France"]*5
-    }
+    years = [2020, 2021, 2022, 2023, 2024]
+    sectors = ["Engineering/IT", "Healthcare", "Education/Research", "Business/Finance"]
+    destinations = ["UK", "Germany", "France", "Netherlands", "Switzerland"]
+    age_groups = ["18-24", "25-34", "35-44"]
+    genders = ["Male", "Female", "Non-Binary"]
     
-    df = pd.DataFrame(data)
+    records = []
     
-    # Transformation: Calculate the Salary Deficit (Policy Indicator)
-    df["Salary_Deficit_vs_OECD_Percent"] = ((df["OECD_Avg_Salary_EUR"] - df["PT_Avg_Salary_EUR"]) / df["OECD_Avg_Salary_EUR"]) * 100
-    df["Salary_Deficit_vs_OECD_Percent"] = df["Salary_Deficit_vs_OECD_Percent"].round(1)
+    # Generate realistic variance for the dataset
+    for y in years:
+        for s in sectors:
+            for a in age_groups:
+                for g in genders:
+                    # Outward Migration (Brain Drain)
+                    out_volume = int(np.random.normal(loc=1500 if s == "Engineering/IT" else 800, scale=200))
+                    dest = np.random.choice(destinations)
+                    pt_salary_out = np.random.normal(loc=19000, scale=2000)
+                    eu_salary_dest = pt_salary_out * np.random.uniform(1.8, 3.5)
+                    
+                    # Inward Migration (Replacement)
+                    in_volume = int(out_volume * np.random.uniform(0.4, 1.2)) # How many come in to replace
+                    pt_salary_in = pt_salary_out * np.random.uniform(0.6, 0.9) # Inward migrants often accept lower wages
+                    
+                    # Tax Impact Calculation (Simplified 28% avg income tax bracket logic)
+                    lost_tax_revenue = out_volume * pt_salary_out * 0.28
+                    
+                    records.append({
+                        "Year": y,
+                        "Sector": s,
+                        "Age_Group": a,
+                        "Gender": g,
+                        "Destination_Country": dest,
+                        "Outward_Emigrants": max(50, out_volume),
+                        "Inward_Immigrants": max(10, in_volume),
+                        "Avg_Salary_PT_EUR": round(pt_salary_out, 2),
+                        "Avg_Salary_EU_EUR": round(eu_salary_dest, 2),
+                        "Avg_Salary_Inward_Migrant_EUR": round(pt_salary_in, 2),
+                        "Lost_Tax_Revenue_EUR": round(lost_tax_revenue, 2)
+                    })
+
+    df = pd.DataFrame(records)
     
-    # Ensure data directory exists
+    # Feature Engineering: Calculate the "Net Skill Deficit"
+    df["Net_Migration"] = df["Inward_Immigrants"] - df["Outward_Emigrants"]
+    
     os.makedirs("data", exist_ok=True)
-    
-    # Load to CSV
     df.to_csv("data/emigration_trends.csv", index=False)
-    print("ETL Pipeline completed. Data saved to data/emigration_trends.csv")
+    print("V2 ETL Pipeline completed successfully.")
 
 if __name__ == "__main__":
-    fetch_and_transform_data()
+    generate_v2_dataset()
