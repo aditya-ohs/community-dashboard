@@ -81,7 +81,7 @@ with tab4 if 'tab4' in locals() else tab3:
     **Architect & Principal Developer:** Aditya Neil Banerjee (Stanford OnlineHigh School Senior)  
     **Framework Assignment:** Epic 2 Portfolio Project — Repository Landing Site: `community-dashboard`
 
-    ### 📚 Verified Sourcing Matrix
+    ###  Verified Sourcing Matrix
     To ensure empirical authenticity, the operational constraints of the underlying calculation modules are weighted using statistical profiles explicitly derived from:
     1. **Observatório da Emigração (OEM):** Validating spatial destination distribution parameters and structural sector-specific volumes of departing Portuguese nationals.
     2. **PORDATA & Instituto Nacional de Estatística (INE):** Grounding national wage baselines and tracking demographic age distribution trends.
@@ -90,12 +90,12 @@ with tab4 if 'tab4' in locals() else tab3:
     """)
     
     st.info("""
-    **⚙️ Automated Synchronization Profile**  
+    ** Automated Synchronization Profile**  
     The dataset is autonomously audited, updated, and re-compiled on the **1st of every month at 00:00 UTC** via an active cron configuration running inside a **GitHub Actions runner**. This guarantees data integrity and ensures the landing page is structurally optimized and live whenever accessed by academic evaluators.
     """)
     
     st.warning("""
-    **⚖️ Regulatory Compliance & Technical Disclaimer (EU GDPR)**
+    **Regulatory Compliance & Technical Disclaimer (EU GDPR)**
     * **Educational Portfolio Manifest:** This platform represents a purely technical demonstration built for university admissions portfolio evaluations. 
     * **Zero PII Tracking:** This pipeline strictly consumes high-level macro-aggregates. No Personally Identifiable Information (PII) is captured, cached, or processed, ensuring full compliance with the General Data Protection Regulation (EU GDPR).
     * **Analytical Notice:** The calculations and policy outputs displayed are generated through serverless algorithms for architectural display purposes and must not be used as isolated financial or legislative data benchmarks without independent audit.
